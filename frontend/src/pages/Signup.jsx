@@ -21,7 +21,7 @@ function Signup(){
                 nickname,
                 email,
             });
-            alert(response.data);
+            alert(response.data);     
         }catch(error){
             console.log(error);
             alert("회원가입 실패", error.response.data);

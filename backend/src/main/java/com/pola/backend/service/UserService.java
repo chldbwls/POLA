@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.pola.backend.repository.UserRepository;
 import com.pola.backend.dto.SignupRequest;
 import com.pola.backend.entity.User;
+import com.pola.backend.dto.LoginRequest;
 
 @Service
 public class UserService {
@@ -28,5 +29,15 @@ public class UserService {
         userRepository.save(user);
         
         return "회원가입 성공";
+    }
+
+    public String login(LoginRequest request){
+        User user = userRepository.findById(request.getId())
+            .orElseThrow(()-> new RuntimeException("아이디가 올바르지 않습니다."));
+        if(!user.getPw().equals(request.getPw())){
+            return "비밀번호가 일치하지 않습니다.";
+        }
+        String s = "로그인 성공";
+        return s;
     }
 }

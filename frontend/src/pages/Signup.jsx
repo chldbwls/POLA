@@ -1,8 +1,9 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import axios from 'axios';
 
 function Signup(){
+    const navigate = useNavigate();
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [pwCheck, setPwCheck] = useState('')
@@ -158,6 +159,9 @@ function Signup(){
                 className="bg-[#B3C5BC] text-white mt-[10px] w-[40vw] max-w-[300px] h-[50px] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-green-400"
                 onClick={onSignup}
             >회원가입</button>
+
+            <p className="text-sm text-gray-500 mt-4">이미 회원이시면 <span className="text-[#B3C5BC] cursor-pointer" onClick={()=>navigate("/login")}>로그인</span></p>
+
         </div>
     );
 }

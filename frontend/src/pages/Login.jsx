@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../AuthContext.jsx";
 
 function Login(){
-
+    const navigate = useNavigate();
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
+    const {login} = useAuth();
 
     const onChangeId=(e)=>{
         setId(e.target.value);
@@ -21,7 +23,9 @@ function Login(){
                 id,
                 pw,
             });
-            alert(response.data);
+            login(response.data.token, response.data.id);
+            alert("로그인 성공");
+            navigate("/");
         }catch(error){
             console.log("로그인 실패"+error);
         }
@@ -51,6 +55,9 @@ function Login(){
             >
                 로그인
             </button>
+
+            <p className="text-sm text-gray-500 mt-4">아직 회원이 아니시라면 <span className="text-[#B3C5BC] cursor-pointer" onClick={()=>navigate("/signup")}>회원가입</span></p>
+
         </div>
     );
 }

@@ -7,11 +7,15 @@ import com.pola.backend.repository.UserRepository;
 import com.pola.backend.dto.SignupRequest;
 import com.pola.backend.entity.User;
 import com.pola.backend.dto.LoginRequest;
+import com.pola.backend.jwt.JwtUtil;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public String register(SignupRequest request){
         if(userRepository.existsById(request.getId())){
@@ -35,9 +39,9 @@ public class UserService {
         User user = userRepository.findById(request.getId())
             .orElseThrow(()-> new RuntimeException("아이디가 올바르지 않습니다."));
         if(!user.getPw().equals(request.getPw())){
-            return "비밀번호가 일치하지 않습니다.";
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
-        String s = "로그인 성공";
-        return s;
+        
+        return jwtUtil.generateToken(request.getId());
     }
 }
